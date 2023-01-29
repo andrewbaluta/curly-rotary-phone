@@ -15,14 +15,61 @@ function _init()
 		ax=0,
 		ay=0
 	}
+	box={
+		x=32,
+		y=32,
+		x2=111-32,
+		y2=111-32
+	}
+	world={
+		x=0,
+		y=0,
+		xmin=0,
+		ymin=0,
+		xmax=255,
+		ymax=255
+	}
+	cam={
+		x=0,
+		y=0
+	}
 	init_ani()
 end
 
 
 function _update()
 	ani_nerd()
+	
+	move_player()
 
-	-- player movement
+
+	--player actions
+	if btn(5) then
+		player.attack=true
+		ani_attack()
+	else 
+		player.attack=false 
+	end
+end
+
+function _draw()
+	cls()
+	camera(cam.x,cam.y)
+	map(world.x,world.y)
+	camera(0,0)
+	spr(player.sprite,player.x,player.y,2,2,player.fx)
+	if player.attack==true then
+		spr(player.asprite,player.ax,player.ay,2,2,player.fx)
+	end
+	print(mget(flr((player.x+8)/16),flr((player.y+8)/16)))
+	rect(box.x,box.y,box.x2+16,box.y2+16,11)
+end
+
+-->8
+--player
+
+function move_player()
+-- player movement
 	if btn(⬅️) then
 		player.x-=player.speed
 		player.fx=false
@@ -43,39 +90,33 @@ function _update()
 		player.fx=true
 		player.face=1
 	end
-	
-	
-	--player actions
-	if btn(5) then
-		player.attack=true
-		ani_attack()
-	else 
-		player.attack=false 
-	end
 
 -- player bounding
-	if player.x<0 then
-		player.x = 0
+	if player.x<box.x and cam.x>world.xmin then
+		player.x=box.x
+		cam.x-=player.speed
+	elseif player.x>box.x2 and cam.x<world.xmax then
+		player.x=box.x2
+		cam.x+=player.speed
 	end
-	if player.y<0 then
-		player.y = 0
+	if cam.x<world.xmin then
+		cam.x=world.xmin
+	elseif cam.x>world.xmax then 
+		cam.x=world.xmax
 	end
-	if player.x>111 then
-		player.x = 111
-	end
-	if player.y>111 then
-		player.y = 111
-	end
-end
 
-function _draw()
-	cls()
-	map()
-	spr(player.sprite,player.x,player.y,2,2,player.fx)
-	if player.attack==true then
-		spr(player.asprite,player.ax,player.ay,2,2,player.fx)
+	if player.y<box.y and cam.y>world.ymin then
+		player.y=box.y
+		cam.y-=player.speed
+	elseif player.y>box.y2 and cam.y<world.ymax then
+		player.y=box.y2
+		cam.y+=player.speed
 	end
-	print(mget(flr((player.x+8)/16),flr((player.y+8)/16)))
+	if cam.y<world.ymin then
+		cam.y=world.ymin
+	elseif cam.y>world.ymax then 
+		cam.y=world.ymax
+	end
 end
 
 -->8
