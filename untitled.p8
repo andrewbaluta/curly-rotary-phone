@@ -2,8 +2,8 @@ pico-8 cartridge // http://www.pico-8.com
 version 39
 __lua__
 
-left,right,up,down,fire1,fire2=0,1,2,3,4,5
-black,dark_blue,dark_purple,dark_green,brown,dark_grey,light_grey,white,red,orange,yellow,green,blue,lavender,pink,light_peach=0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15
+--left,right,up,down,fire1,fire2=0,1,2,3,4,5
+--black,dark_blue,dark_purple,dark_green,brown,dark_grey,light_grey,white,red,orange,yellow,green,blue,lavender,pink,light_peach=0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15
 
 function get_player_tile(player)
     return mget(flr((player.x+4)/8),flr((player.y+4)/8))
